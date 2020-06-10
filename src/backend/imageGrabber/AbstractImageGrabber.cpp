@@ -109,10 +109,26 @@ QPixmap AbstractImageGrabber::snippingAreaBackground() const
 
 QPixmap AbstractImageGrabber::getScreenshotFromRect(const QRect &rect) const
 {
+	qDebug("Rect %s x %s", qPrintable(QString::number(rect.width())), qPrintable(QString::number(rect.height())));
 	auto screen = QGuiApplication::primaryScreen();
 	auto windowId = QApplication::desktop()->winId();
 	auto rectPosition = rect.topLeft();
-	return screen->grabWindow(windowId, rectPosition.x(), rectPosition.y(), rect.width(), rect.height());
+
+	auto screenshot = screen->grabWindow(windowId, rectPosition.x(), rectPosition.y(), rect.width(), rect.height());
+
+	qDebug("Capture %s x %s", qPrintable(QString::number(screenshot.width())), qPrintable(QString::number(screenshot.height())));
+
+	qDebug("Scale %s", qPrintable(QString::number(screenshot.devicePixelRatio())));
+
+//	if(screenshot.width() > rect.width() && screenshot.height() > rect.height()) {
+//		screenshot = screenshot.copy(0,0, rect.width(), rect.height());
+//	}
+
+	screenshot.save("/home/dporobic/test.png");
+
+	qDebug("Capture %s x %s", qPrintable(QString::number(screenshot.width())), qPrintable(QString::number(screenshot.height())));
+
+	return screenshot;
 }
 
 QPixmap AbstractImageGrabber::getScreenshot() const

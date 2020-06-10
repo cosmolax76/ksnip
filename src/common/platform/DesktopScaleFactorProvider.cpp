@@ -28,7 +28,11 @@ DesktopScaleFactorProvider *DesktopScaleFactorProvider::instance()
 qreal DesktopScaleFactorProvider::ScaleFactor() const
 {
 	auto screen = QApplication::screens().first();
+#if QT_VERSION < QT_VERSION_CHECK(5, 9, 0)
 	return mPlatformChecker->isWayland() ? mDefaultScaleFactor : screen->devicePixelRatio();
+#else
+	return mDefaultScaleFactor;
+#endif
 }
 
 DesktopScaleFactorProvider::DesktopScaleFactorProvider()
