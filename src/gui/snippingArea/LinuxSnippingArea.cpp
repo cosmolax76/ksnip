@@ -35,16 +35,24 @@ QRect LinuxSnippingArea::selectedRectArea() const
 
 void LinuxSnippingArea::setFullScreen()
 {
-    setFixedSize(QDesktopWidget().size());
-    QWidget::showFullScreen();
+	QRect fullScreenRect;
+	auto screenCount = QDesktopWidget().screenCount();
+	for(int i = 0; i < screenCount; i++) {
+		auto screenRect = QDesktopWidget().screenGeometry(i);
+		fullScreenRect = fullScreenRect.united(screenRect);
+	}
+
+	setGeometry(fullScreenRect);
+	QWidget::show();
 }
 
 QPoint LinuxSnippingArea::getMousePosition() const
 {
-    return QCursor::pos();
+	return mapFromGlobal(QCursor::pos());
 }
 
 QRect LinuxSnippingArea::getSnippingAreaGeometry() const
 {
-    return geometry();
+	auto snippingAreaGeometry = geometry();
+	return {mapFromGlobal(snippingAreaGeometry.topLeft()), mapFromGlobal(snippingAreaGeometry.bottomRight())};
 }
