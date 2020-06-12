@@ -16,15 +16,15 @@ else
     export VERSION=${VERSION_NUMBER}
 fi
 
-git clone git://github.com/DamirPorobic/kColorPicker
-git clone git://github.com/DamirPorobic/kImageAnnotator
+git clone git://github.com/ksnip/kColorPicker
+git clone git://github.com/ksnip/kImageAnnotator
 
 if [[ "${BINARY_TYPE}" == "AppImage" ]]; then
     sudo apt-get -y install qt57base qt57x11extras qt57tools qt57svg
     source /opt/qt*/bin/qt*-env.sh
 
     echo "--> Install Extra CMake Modules"
-    git clone git://anongit.kde.org/extra-cmake-modules
+    git clone git://github.com/KDE/extra-cmake-modules
     cd extra-cmake-modules
     mkdir build && cd build
     cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
